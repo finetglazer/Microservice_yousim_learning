@@ -14,4 +14,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByCustomerId(Integer customerId);
 
     Optional<User> findByEmail(String email);
+
+    @Query(value = "SELECT u FROM User u WHERE u.session = :sessionId and u.token = :token")
+    Optional<User> findUserBySessionAndToken(String sessionId, String token);
 }

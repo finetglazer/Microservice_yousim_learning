@@ -82,8 +82,11 @@ public class CustomerServiceImpl implements CustomerService {
             }
         } else {
             User user = userRepository.findByCustomerId(customer.getCusId()).orElse(null);
-            String tokenData = GenCodeUtils.encrypt(user.getCusId() + "_" + user.getUserId(), Const.KEY, Const.SECRET_KEY);
+            assert user != null;
+//            System.out.println(user.getUsername() + "_" + user.getRoleId() + "_" + user.getUserId());
+            String tokenData = GenCodeUtils.encrypt(user.getUsername() + "_" + user.getRoleId() + "_" + user.getUserId(), Const.KEY, Const.SECRET_KEY);
             user.setToken(tokenData);
+            userRepository.save(user);
 
             HttpSession httpSession = httpServletRequest.getSession();
             httpSession.setMaxInactiveInterval(60 * 60 * 24);

@@ -6,6 +6,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.security.SecureRandom;
@@ -15,7 +16,7 @@ import java.util.Random;
 @Component
 @Log4j2
 public class GenCodeUtils {
-    private static final String ALGO = "AES";
+//    private static final String ALGO = "AES";
     private static final String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
     private static final String CHAR_UPPER = CHAR_LOWER.toUpperCase();
     private static final String NUMBER = "0123456789";
@@ -23,6 +24,42 @@ public class GenCodeUtils {
     public static final String VOUCHER_PREFIX = "VC";
     private static final String DATA_FOR_RANDOM_STRING = CHAR_UPPER + NUMBER;
     private static SecureRandom random = new SecureRandom();
+
+
+    private static final String ALGO = "AES/CBC/PKCS5Padding";
+    private static final int AES_KEY_SIZE = 16; // 128 bits
+
+    public static String encrypt(String data, String textKey, String salt) {
+        try {
+            Key key = generateKey(textKey, salt);
+            Cipher cipher = Cipher.getInstance(ALGO);
+
+            // Generate a random IV (Initialization Vector)
+            byte[] iv = new byte[cipher.getBlockSize()];
+            new SecureRandom().nextBytes(iv);
+            IvParameterSpec ivParams = new IvParameterSpec(iv);
+
+            cipher.init(Cipher.ENCRYPT_MODE, key, ivParams);
+            byte[] encVal = cipher.doFinal(data.getBytes());
+
+            // Prepend IV to the encrypted value for decryption later
+            byte[] encryptedIvAndText = new byte[iv.length + encVal.length];
+            System.arraycopy(iv, 0, encryptedIvAndText, 0, iv.length);
+            System.arraycopy(encVal, 0, encryptedIvAndText, iv.length, encVal.length);
+
+            return Base64.encodeBase64String(encryptedIvAndText);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static Key generateKey(String textKey, String salt) throws Exception {
+        // Adjust the key length to be exactly 16 bytes (128 bits)
+        String keyString = (textKey + salt).substring(0, AES_KEY_SIZE);
+        byte[] keyBytes = keyString.getBytes("UTF-8");
+        return new SecretKeySpec(keyBytes, "AES");
+    }
 
     public static String generateRandomString(int length) {
         if (length < 1) throw new IllegalArgumentException();
@@ -44,20 +81,20 @@ public class GenCodeUtils {
         return VOUCHER_PREFIX + generateRandomString(7);
     }
 
-    public static String encrypt(String Data, String textKey, String salt) {
-        try {
-            Key key = generateKey(textKey, salt);
-            Cipher c = Cipher.getInstance(ALGO);
-            c.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encVal = c.doFinal(Data.getBytes());
-            System.out.println(encVal);
-            String encryptedValue = Base64.encodeBase64String(encVal);
-            return encryptedValue;
-        } catch (Exception e) {
-            log.error(e);
-        }
-        return null;
-    }
+//    public static String encrypt(String Data, String textKey, String salt) {
+//        try {
+//            Key key = generateKey(textKey, salt);
+//            Cipher c = Cipher.getInstance(ALGO);
+//            c.init(Cipher.ENCRYPT_MODE, key);
+//            byte[] encVal = c.doFinal(Data.getBytes());
+//            System.out.println(encVal);
+//            String encryptedValue = Base64.encodeBase64String(encVal);
+//            return encryptedValue;
+//        } catch (Exception e) {
+//            log.error(e);
+//        }
+//        return null;
+//    }
 
     public static String decrypt(String encryptedData, String textKey, String salt) {
         try {
@@ -76,10 +113,10 @@ public class GenCodeUtils {
     }
 
 
-    private static Key generateKey(String keyText, String salt) {
-        Key key = new SecretKeySpec((keyText + salt).getBytes(), ALGO);
-        return key;
-    }
+//    private static Key generateKey(String keyText, String salt) {
+//        Key key = new SecretKeySpec((keyText + salt).getBytes(), ALGO);
+//        return key;
+//    }
 
     public static Long genVoucherCode() {
         Long currentTime = System.currentTimeMillis();
