@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="YousimService" />
         <module name="EurekaServer" />
+        <module name="GateWayServer" />
         <module name="YousimVoucherService" />
       </profile>
     </annotationProcessing>
@@ -17,6 +18,7 @@
       <module name="demo1 (1) (org.example)" target="17" />
       <module name="demo2" target="17" />
       <module name="EurekaProject" target="21" />
+      <module name="ServiceDemo" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -24,6 +26,8 @@
       <module name="ConfigServer" options="-parameters" />
       <module name="EurekaProject" options="-parameters" />
       <module name="EurekaServer" options="-parameters" />
+      <module name="GateWayServer" options="-parameters" />
+      <module name="ServiceDemo" options="-parameters" />
       <module name="YousimService" options="-parameters" />
       <module name="YousimVoucherService" options="-parameters" />
       <module name="demo1 (1) (org.example)" options="-parameters" />
