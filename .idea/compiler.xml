@@ -8,18 +8,22 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="YousimService" />
+        <module name="EurekaServer" />
         <module name="YousimVoucherService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="ConfigServer" target="21" />
       <module name="demo1 (1) (org.example)" target="17" />
       <module name="demo2" target="17" />
-      <module name="EurekaServer" target="17" />
-      <module name="GateWayServer" target="17" />
+      <module name="EurekaProject" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ConfigServer" options="-parameters" />
+      <module name="EurekaProject" options="-parameters" />
+      <module name="EurekaServer" options="-parameters" />
       <module name="YousimService" options="-parameters" />
       <module name="YousimVoucherService" options="-parameters" />
       <module name="demo1 (1) (org.example)" options="-parameters" />
