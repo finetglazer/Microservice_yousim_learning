@@ -22,7 +22,9 @@ public class WebSecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http.authorizeExchange(exchanges -> exchanges.pathMatchers("/yousimvoucherservice/api/v1/test/hello").permitAll()
+                        .pathMatchers("/webfluxdemo/api/v1/yousimvoucher/**").permitAll()
                         .pathMatchers("/yousimservice/api/v1/yousimvoucher/getVoucher").hasAuthority("yousim_authority")
+
                         .anyExchange().authenticated())
                 .oauth2ResourceServer(oAuth2ResourceServerSpec -> oAuth2ResourceServerSpec.jwt(jwtSpec -> jwtSpec.jwtAuthenticationConverter(grantedAuthoritiesExtractor())));
         http.csrf(csrfSpec -> csrfSpec.disable());
