@@ -4,6 +4,9 @@
     <file url="file://$PROJECT_DIR$/ConfigServer/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/EurekaProject/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/EurekaServer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/GateWayServer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ServiceDemo/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WebFluxDemo/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/YousimService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/YousimVoucherService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/demo1/src/main/java" charset="UTF-8" />
